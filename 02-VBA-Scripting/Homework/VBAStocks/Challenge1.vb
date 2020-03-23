@@ -65,7 +65,7 @@ numRow = Cells.Find(What:="*", _
 'ws.Sort.SortFields.Add2 Key:=Range( _
 '    "A2:" & numRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
 '    xlSortNormal
-'ActiveWorkbook.Worksheets("2014").Sort.SortFields.Add2 Key:=Range( _
+'ws.Sort.SortFields.Add2 Key:=Range( _
 '    "B2:" & numRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
 '    xlSortNormal
 'With ws.Sort
