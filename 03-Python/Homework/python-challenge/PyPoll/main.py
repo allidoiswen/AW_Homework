@@ -42,7 +42,7 @@ with open(election_data) as election:
 # Print Results onto Terminal
 print('Election Results')
 print('-------------------------')
-print(f'Total Votes: {vote_count}')
+print(f'Total Votes: {total_votes}')
 print('-------------------------')
 for candidate in vote_count:
     name     = candidate
