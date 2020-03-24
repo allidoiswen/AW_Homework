@@ -36,7 +36,7 @@ with open(budget_data) as bd:
         # Acumulate Monthly P&L Delta
         ## Detect the first row ##
         if first_iteration_flag == True:   
-            first_iteration_flag = False
+            first_iteration_flag = False   #Turn off the first row flag
             pre_pnl = this_row_pnl
         else:
             monthly_pnl_delta = this_row_pnl - pre_pnl
