@@ -1,5 +1,5 @@
 '''
-PyPoll
+PyPoll Challenge
 '''
 
 import os
@@ -57,4 +57,12 @@ print(f'Winner: {winner}')
 print('-------------------------')
 
 
+# # Save Output as a txt
+# with open(output_date, 'w') as outputfile:
 
+#     # Initialize csv.writer
+#     csvwriter = csv.writer(outputfile, delimiter=':')
+
+#     # Save Each Line into the output file
+#     for line in output_dict:
+#         csvwriter.writerow(output_dict[line].split(':'))
