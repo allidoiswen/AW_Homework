@@ -71,10 +71,10 @@ for line in output_dict:
     print(output_dict[line])
 
 # Save Output as a txt
-with open(output_date, 'w') as outputfile:
+with open(output_date, 'w', newline='') as outputfile:
 
     # Initialize csv.writer
-    csvwriter = csv.writer(outputfile, delimiter=',')
+    csvwriter = csv.writer(outputfile, delimiter=',', )
 
     # Save Each Line into the output file
     for line in output_dict:
