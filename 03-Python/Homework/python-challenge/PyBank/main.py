@@ -38,19 +38,26 @@ with open(budget_data) as bd:
         if first_iteration_flag == True:   
             first_iteration_flag = False   #Turn off the first row flag
             first_number = this_row_pnl
+            previous_number = this_row_pnl
         else:
+            # Calculate monthly Pnl Change
+            monthly_delta = this_row_pnl - previous_number
+
+            # set previous number
+            previous_number = this_row_pnl
+
             # last number - first number
             delta = this_row_pnl - first_number
 
-        # greatest profits
-        if this_row_pnl > greatest_profit:
-            greatest_profit = this_row_pnl
-            greatest_profit_month = row[0]
+            # greatest monthly incease in profits
+            if monthly_delta > greatest_profit:
+                greatest_profit = monthly_delta
+                greatest_profit_month = row[0]
 
-        # greatest loss
-        if this_row_pnl < greatest_loss:
-            greatest_loss = this_row_pnl
-            greatest_loss_month = row[0]
+            # greatest monthly increase in loss
+            if monthly_delta < greatest_loss:
+                greatest_loss = monthly_delta
+                greatest_loss_month = row[0]
 
 ave_pnl_delta = delta / (num_month-1)
 ave_pnl_delta = round(ave_pnl_delta, 2)
