@@ -33,16 +33,14 @@ with open(budget_data) as bd:
         this_row_pnl = float(row[1])
         pnl = pnl + this_row_pnl
 
-        # Acumulate Monthly P&L Delta
+        # Calculate Delta
         ## Detect the first row ##
         if first_iteration_flag == True:   
             first_iteration_flag = False   #Turn off the first row flag
-            pre_pnl = this_row_pnl
+            first_number = this_row_pnl
         else:
-            monthly_pnl_delta = this_row_pnl - pre_pnl
-            all_monthly_pnl_delta.append(monthly_pnl_delta)
-            # update previous PnL variable for the next row
-            pre_pnl = this_row_pnl
+            # last number - first number
+            delta = this_row_pnl - first_number
 
         # greatest profits
         if this_row_pnl > greatest_profit:
@@ -54,7 +52,7 @@ with open(budget_data) as bd:
             greatest_loss = this_row_pnl
             greatest_loss_month = row[0]
 
-ave_pnl_delta = sum(all_monthly_pnl_delta) / (num_month-1)
+ave_pnl_delta = delta / (num_month-1)
 ave_pnl_delta = round(ave_pnl_delta, 2)
 
 output_dict = {
