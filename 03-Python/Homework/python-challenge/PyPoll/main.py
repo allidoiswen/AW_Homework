@@ -57,12 +57,22 @@ print(f'Winner: {winner}')
 print('-------------------------')
 
 
-# # Save Output as a txt
-# with open(output_date, 'w') as outputfile:
+# Save Output as a txt
+with open(output_date, 'w', newline="") as outputfile:
 
-#     # Initialize csv.writer
-#     csvwriter = csv.writer(outputfile, delimiter=':')
+    # Initialize csv.writer
+    csvwriter = csv.writer(outputfile, delimiter=':')
 
-#     # Save Each Line into the output file
-#     for line in output_dict:
-#         csvwriter.writerow(output_dict[line].split(':'))
+    # Save Each Line into the output file
+    csvwriter.writerow(['Election Results'])
+    csvwriter.writerow(['-------------------------'])
+    csvwriter.writerow([f'Total Votes: {total_votes}'])
+    csvwriter.writerow(['-------------------------'])
+    for candidate in vote_count:
+        name     = candidate
+        vote     = vote_count[candidate]
+        pct_vote = str(round(vote / total_votes, 2) * 100)[0:6]
+        csvwriter.writerow([f"{name}: {pct_vote}% ({vote})"])
+    csvwriter.writerow(['-------------------------'])
+    csvwriter.writerow([f'Winner: {winner}'])
+    csvwriter.writerow(['-------------------------'])
