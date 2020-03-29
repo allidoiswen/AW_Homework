@@ -66,9 +66,10 @@ output_dict = {
     0 : 'Financial Analysis',
     1 : '----------------------------',
     2 : f'Total Months: {num_month}',
-    3 : f'Average  Change: ${ave_pnl_delta}',
-    4 : f'Greatest Increase in Profits: {greatest_profit_month} (${greatest_profit})',
-    5 : f'Greatest Decrease in Profits: {greatest_loss_month} (${greatest_loss})',
+    3 : f'Total: {pnl}',
+    4 : f'Average  Change: ${ave_pnl_delta}',
+    5 : f'Greatest Increase in Profits: {greatest_profit_month} (${greatest_profit})',
+    6 : f'Greatest Decrease in Profits: {greatest_loss_month} (${greatest_loss})',
 }
 
 # Print Output onto Terminal
