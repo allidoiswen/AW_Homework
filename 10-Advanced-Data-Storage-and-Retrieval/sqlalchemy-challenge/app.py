@@ -33,8 +33,10 @@ def welcome():
         f'<a href="/api/v1.0/precipitation">Precipitation Data</a><br/>'
         f'<a href="/api/v1.0/stations">Stations Data</a><br/>'
         f'<a href="/api/v1.0/tobs">Temperature Data</a><br/>' 
-        f'<a href="/api/v1.0/<start>">Historical Data Start Date Only</a><br/>'
-        f'<a href="/api/v1.0/<start/<end>>">Historical Data Start and End Dates</a><br/>'       
+        f'Historical Temperature Average Data (Start Date Only) : /api/v1.0/start/YYYY-MM-DD <br/>'
+        f'Historical Temperature Average Data : /api/v1.0/start/YYYY-MM-DD/end/YYYY-MM-DD <br/>'
+        # f'<a href="/api/v1.0/<start>">Historical Data Start Date Only</a><br/>'
+        # f'<a href="/api/v1.0/<start/<end>>">Historical Data Start and End Dates</a><br/>'       
     )
 
 @app.route("/api/v1.0/precipitation")
@@ -108,6 +110,53 @@ def tobs():
     session.close()
 
     return jsonify(tobs_data_dict)
+
+
+@app.route(f"/api/v1.0/start/<start>")
+def ave_temp_start_only(start):
+
+    # Connect to the session
+    session = Session(bind = engine)
+
+    start = dt.datetime.strptime(start, '%Y-%m-%d')
+
+    sel = [func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)]
+    output = session.query(*sel).filter(Measurement.date >= start).all()
+
+    output_dict = {}
+
+    output_dict['TMIN'] = output[0][0]
+    output_dict['TAVG'] = output[0][1]
+    output_dict['TMAX'] = output[0][2]
+
+    # Disconnect to the session
+    session.close()
+
+    return jsonify(output_dict)
+
+@app.route(f"/api/v1.0/start/<start>/end/<end>")
+def ave_temp(start, end):
+
+    # Connect to the session
+    session = Session(bind = engine)
+
+    start = dt.datetime.strptime(start, '%Y-%m-%d')
+    end   = dt.datetime.strptime(end, '%Y-%m-%d')
+
+    sel = [func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)]
+    output = session.query(*sel).filter(and_(Measurement.date >= start, Measurement.date < end)).all()
+
+    output_dict = {}
+
+    output_dict['TMIN'] = output[0][0]
+    output_dict['TAVG'] = output[0][1]
+    output_dict['TMAX'] = output[0][2]
+
+    # Disconnect to the session
+    session.close()
+
+    return jsonify(output_dict)
+
     
 if __name__ == '__main__':
     app.run(debug=True)
