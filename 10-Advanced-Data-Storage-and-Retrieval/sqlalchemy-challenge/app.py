@@ -50,10 +50,7 @@ def precipitation():
     # Disconnect to the session
     session.close()
     
-    prcp_dict = {}
-
-    for i in prcp_data:
-        prcp_dict[i[0]] = i[1]
+    prcp_dict = dict(prcp_data)
 
     return jsonify(prcp_dict)
 
@@ -85,17 +82,32 @@ def tobs():
     max_date = session.query(func.max(Measurement.date)).first()
     max_date = max_date[0]
     max_date = dt.datetime.strptime(max_date, '%Y-%m-%d')
-
     last_year = max_date.year - 1
+
+    # Find Most Active Station for the last year
+    sel = [Measurement.station, func.count(Measurement.tobs)]
+
+    most_active = session.query(*sel).\
+                        group_by(Measurement.station).\
+                        order_by(func.count(Measurement.tobs).desc()).first()
+
+    most_active = most_active[0]
+
+    # Find all tobs data from last year's most active station
+    sel = [Measurement.date, Measurement.tobs]
+
+    tobs_data = session.query(*sel).\
+                        filter(func.strftime("%Y", Measurement.date) == str(last_year)).\
+                        filter(Measurement.station == most_active).all()
+
+    # Convert list of tuples to dictionary
+    tobs_data_dict = dict(tobs_data)
 
     
     # Disconnect to the session
     session.close()
 
-    # Convert list of tuples to list
-    # tobs_data = list(np.ravel(tobs_data))
-
-    return jsonify(last_year)
-
+    return jsonify(tobs_data_dict)
+    
 if __name__ == '__main__':
     app.run(debug=True)
