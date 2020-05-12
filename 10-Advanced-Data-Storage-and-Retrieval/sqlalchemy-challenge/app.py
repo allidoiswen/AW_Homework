@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, func, and_
 
 import datetime as dt
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 # Setup Database
 path = 'Resources/hawaii.sqlite'
@@ -22,22 +22,24 @@ Station = Base.classes.station
 Measurement = Base.classes.measurement
 
 # Flask begins
-app = Flask(__name__)
+app = Flask(__name__, template_folder='')
 
 # Flask Routes
 @app.route("/")
-def welcome():
-    """All available api routes."""
-    return (
-        f"Available Climate App Routes:<br/>"
-        f'<a href="/api/v1.0/precipitation">Precipitation Data</a><br/>'
-        f'<a href="/api/v1.0/stations">Stations Data</a><br/>'
-        f'<a href="/api/v1.0/tobs">Temperature Data</a><br/>' 
-        f'Historical Temperature Average Data (Start Date Only) : /api/v1.0/start/YYYY-MM-DD <br/>'
-        f'Historical Temperature Average Data : /api/v1.0/start/YYYY-MM-DD/end/YYYY-MM-DD <br/>'
-        # f'<a href="/api/v1.0/<start>">Historical Data Start Date Only</a><br/>'
-        # f'<a href="/api/v1.0/<start/<end>>">Historical Data Start and End Dates</a><br/>'       
-    )
+def home():
+   return render_template('/home.html')
+# def welcome():
+#     """All available api routes."""
+#     return (
+#         f'Available Climate App Routes:<br/>'
+#         f'<a href="/api/v1.0/precipitation">Precipitation Data</a><br/>'
+#         f'<a href="/api/v1.0/stations">Stations Data</a><br/>'
+#         f'<a href="/api/v1.0/tobs">Temperature Data</a><br/>' 
+#         f'Historical Temperature Average Data (Start Date Only) : /api/v1.0/start/YYYY-MM-DD <br/>'
+#         f'Historical Temperature Average Data : /api/v1.0/start/YYYY-MM-DD/end/YYYY-MM-DD <br/>'
+#         # f'<a href="/api/v1.0/<start>">Historical Data Start Date Only</a><br/>'
+#         # f'<a href="/api/v1.0/<start/<end>>">Historical Data Start and End Dates</a><br/>'       
+#     )
 
 @app.route("/api/v1.0/precipitation")
 def precipitation():
