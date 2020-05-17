@@ -114,7 +114,7 @@ def tobs():
     return jsonify(tobs_data_dict)
 
 
-@app.route(f"/api/v1.0/start/<start>")
+@app.route(f"/api/v1.0/<start>")
 def ave_temp_start_only(start):
 
     # Connect to the session
