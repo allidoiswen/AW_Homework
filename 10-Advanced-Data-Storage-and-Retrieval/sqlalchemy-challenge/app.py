@@ -136,7 +136,7 @@ def ave_temp_start_only(start):
 
     return jsonify(output_dict)
 
-@app.route(f"/api/v1.0/start/<start>/end/<end>")
+@app.route(f"/api/v1.0/<start>/<end>")
 def ave_temp(start, end):
 
     # Connect to the session
