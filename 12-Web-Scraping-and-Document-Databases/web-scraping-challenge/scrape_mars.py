@@ -184,7 +184,7 @@ def Mars_Weather():
 # 
 # * Use Pandas to convert the data to a HTML table string.
 
-# In[5]:
+# In[14]:
 
 
 def Mars_Facts():
@@ -203,6 +203,15 @@ def Mars_Facts():
 
     # Save the table as HTML
     facts.to_html('facts.html', index = False)
+    
+    # read the HTML file back in
+    with open('facts.html', 'r') as f:
+        mars_facts = f.read()
+        
+    # Remove all the \n
+    mars_facts = mars_facts.replace('\n', '')
+
+    return mars_facts
 
 
 # ### Mars Hemispheres
@@ -305,18 +314,35 @@ def scrape():
     print("Completed")
     
     print("Start scraping Mars facts...")  
-    Mars_Facts()
+    mars_facts = Mars_Facts()
     print("Completed")
     
     print("Start scraping Mars Hemispheres...")
     hemisphere_image_urls = Mars_Hemi()
     print("Completed")
     
-    return news_title, news_p, featured_image_url, mars_weather, hemisphere_image_urls
+    # Put everything into a dictionary
+    
+    results_dict = {
+        'news_title' : news_title,
+        'news_p'     : news_p,
+        'featured_image_url' : featured_image_url,
+        'mars_weather' : mars_weather,
+        'mars_facts'   : mars_facts,
+        'hemisphere_image_urls' : hemisphere_image_urls
+    }
+    
+    return results_dict
 
 
 # In[8]:
 
 
-# news_title, news_p, featured_image_url, mars_weather, hemisphere_image_urls = scrape()
+# results = scrape()
+
+
+# In[ ]:
+
+
+
 
