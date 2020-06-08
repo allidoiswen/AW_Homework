@@ -3,6 +3,21 @@ const tableData = data;
 const tbody = d3.select("tbody");
 const filterTableButton = d3.select("#filter-btn");
 
+// list of arrays
+let dateList = [];
+let cityList = [];
+let stateList = [];
+let countryList = [];
+let shapeList =[];
+
+tableData.forEach(ufoData => {
+  if (!dateList.includes(ufoData["datetime"])) {dateList.push(ufoData["datetime"]);}
+  if (!cityList.includes(ufoData["city"])) {cityList.push(ufoData["city"]);}
+  if (!stateList.includes(ufoData["state"])) {stateList.push(ufoData["state"]);}
+  if (!countryList.includes(ufoData["country"])) {countryList.push(ufoData["country"]);}
+  if (!shapeList.includes(ufoData["shape"])) {shapeList.push(ufoData["shape"]);}
+})
+
 // Show all data at first
 tableData.forEach(ufoData => {
     var row = tbody.append("tr");
