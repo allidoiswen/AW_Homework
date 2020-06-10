@@ -38,23 +38,23 @@
                     <ul class="list-group" id="filters">
                       <li class="filter list-group-item">
                         <label for="date">Enter a Date</label>
-                        <input class="form-control" id="datetime" type="text" placeholder="1/11/2011">
+                        <input class="form-control" id="datetime" type="text" placeholder="1/11/2011" autocomplete="off">
                       </li>
                       <li class="filter list-group-item">
                         <label for="city">Enter a City</label>
-                        <input class="form-control" id="city" type="text" placeholder="">
+                        <input class="form-control" id="city" type="text" placeholder="" autocomplete="off">
                       </li>
                       <li class="filter list-group-item">
                         <label for="state">Enter a State</label>
-                        <input class="form-control" id="state" type="text" placeholder="">
+                        <input class="form-control" id="state" type="text" placeholder="" autocomplete="off">
                       </li>
                       <li class="filter list-group-item">
                         <label for="country">Enter a Country</label>
-                        <input class="form-control" id="country" type="text" placeholder="">
+                        <input class="form-control" id="country" type="text" placeholder="" autocomplete="off">
                       </li>
                       <li class="filter list-group-item">
                         <label for="shape">Enter a shape</label>
-                        <input class="form-control" id="shape" type="text" placeholder="">
+                        <input class="form-control" id="shape" type="text" placeholder="" autocomplete="off">
                       </li>
                     </ul>
                   </div>
@@ -91,6 +91,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
   <script src="static/js/data.js"></script>
   <script src="static/js/app.js"></script>
+  <script src="static/js/autocomplete.js"></script>
+  <script>autocomplete(document.getElementById("datetime"), dateList);</script>
+  <script>autocomplete(document.getElementById("city"), cityList);</script>
 </body>
 
 </html>
