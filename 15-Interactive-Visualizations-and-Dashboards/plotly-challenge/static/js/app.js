@@ -51,7 +51,8 @@ d3.json("./data/samples.json").then(function(data) {
         marker: {
           size: defaultData.sample_values,
           color : defaultData.otu_ids
-        }
+        },
+        text :  defaultData.otu_labels
       };
       
       var bubbleData = [bubbleTracer];
@@ -67,15 +68,53 @@ d3.json("./data/samples.json").then(function(data) {
 
     // Create default metadata
     demographicInfo = data.metadata[0];
-    d3.select("#sample-metadata").insert("ul");
-    d3.select("ul").selectAll("li")
-    .data(demographicInfo)
-    .append("li")
-    .text(function(d) {
-      return d;
-    });
 
-    console.log(demographicInfo);
+    var keys = Object.keys(demographicInfo);
+    var values = Object.values(demographicInfo);
+    var keyValue = keys.map(function(d, i) {
+      return d + ":" + values[i];
+    })
+    
+    d3.select("#sample-metadata")
+        .append("ul")
+        .selectAll("li")
+        .data(keyValue)
+        .enter()
+        .append("li")
+        .text(d => d);
+
+    // Default Gauge Chart
+    // https://code.tutsplus.com/tutorials/create-interactive-charts-using-plotlyjs-pie-and-gauge-charts--cms-29216
+    var data = [
+        {
+            type: "pie",
+            showlegend: false,
+            hole: 0.4,
+            rotation: 90,
+            values: [100 / 9, 100 / 9, 100 / 9, 100 / 9, 100 / 9, 
+                     100 / 9, 100 / 9, 100 / 9, 100 / 9, 100],
+            text: ["0-1", "1-2", "2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9"],
+            direction: "clockwise",
+            textinfo: "text",
+            textposition: "inside",
+            marker: {
+              colors: ["rgba(255, 0, 0, 0.6)", "rgba(255, 165, 0, 0.6)", 
+                       "rgba(255, 255, 0, 0.6)", "rgba(144, 238, 144, 0.6)", 
+                       "rgba(154, 205, 50, 0.6)", 
+                       "rgba(255, 0, 0, 0.6)", "rgba(255, 165, 0, 0.6)", 
+                       "rgba(255, 255, 0, 0.6)", "rgba(144, 238, 144, 0.6)", 
+                       "white"]
+            },
+            // labels: ["0-10", "10-50", "50-200", "200-500", "500-2000", ""],
+            hoverinfo: "label"
+          }
+    ];
+    
+    var layout = { width: 475, 
+                  height: 500,
+                  title : "Belly Button Washing Frequency <br> Scrubs per Week" };
+    Plotly.newPlot('gauge', data, layout);
+
 });
 
 function optionChanged() {
@@ -100,6 +139,9 @@ function optionChanged() {
 
     // Update Bubble Chart
     updateBubbleChart(idx, testSubjectID);
+
+    // Update Demographic
+    updateDemographicInfo(idx, testSubjectID);
 };
 
 function updateBarChart(idx, testSubjectID) {
@@ -145,7 +187,8 @@ function updateBubbleChart(idx, testSubjectID) {
         marker: {
           size: testSubjectSample.sample_values,
           color : testSubjectSample.otu_ids
-        }
+        },
+        text :  testSubjectSample.otu_labels
       };
       
       var bubbleData = [bubbleTracer];
@@ -161,10 +204,34 @@ function updateBubbleChart(idx, testSubjectID) {
 
 }
 
+function updateDemographicInfo(idx, testSubjectID) {
 
-// 4. Display the sample metadata, i.e., an individual's demographic information.
+    // 4. Display the sample metadata, i.e., an individual's demographic information
+    // 5. Display each key-value pair from the metadata JSON object somewhere on the page.
 
-// 5. Display each key-value pair from the metadata JSON object somewhere on the page.
+    d3.select("#sample-metadata").selectAll('li').remove();
+
+    // Test Subject Meta Data
+    var demographicInfo = globalSampleData.metadata[idx];
+
+    var keys = Object.keys(demographicInfo);
+    var values = Object.values(demographicInfo);
+    var keyValue = keys.map(function(d, i) {
+      return d + ":" + values[i];
+    })
+    
+    d3.select("#sample-metadata")
+        .append("ul")
+        .selectAll("li")
+        .data(keyValue)
+        .enter()
+        .append("li")
+        .text(d => d);
+
+}
+
+
+
 
 // ![hw](Images/hw03.png)
 
