@@ -17,4 +17,5 @@ CREATE TABLE tripdata (
 );
 
 SELECT * FROM tripdata
-LIMIT 30;
+WHERE bikeid = '39852'
+LIMIT 100;
