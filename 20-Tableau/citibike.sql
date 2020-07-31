@@ -32,12 +32,36 @@ TO 'C:\Temp\total_trip_duration.csv'
 DELIMITER ','
 CSV HEADER;
 
-
 -- YTD --
 COPY (
 	SELECT * FROM tripdata
 	WHERE date(starttime) > '2019-12-31'
 	)
 TO 'C:\Temp\YTD_data.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- Migration --
+CREATE VIEW start_count AS
+SELECT startstationname, count(startstationid) as num_start FROM tripdata
+WHERE date(starttime) > '2020-05-31'
+GROUP BY startstationname
+ORDER BY num_start DESC;
+
+CREATE VIEW end_count AS
+SELECT endstationname, count(endstationid) as num_end FROM tripdata
+WHERE date(starttime) > '2020-05-31'
+GROUP BY endstationname
+ORDER BY num_end DESC;
+
+
+-- merge views --
+COPY(
+SELECT sc.startstationname, sc.num_start, ec.num_end
+FROM start_count AS sc
+FULL OUTER JOIN end_count AS ec
+ON sc.startstationname = ec.endstationname
+)
+TO 'C:\Temp\202006_migration.csv'
 DELIMITER ','
 CSV HEADER;
